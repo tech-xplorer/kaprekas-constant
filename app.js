@@ -15,11 +15,34 @@ const checkUserInput = () => {
 };
 
 //Function to run the Kaprekar's Constant algorithm.
-const kaprekarsAlgo = (inputValue, subtractionResult, stepsCounter) => {
-    let numArray = [];
-    if(typeof inputValue === "string") {
-        
+const kaprekarsAlgo = (numberValue, subtractionResult, stepsCounter) => {
+    let stringOfNumbers = '' + numberValue,
+        bigNumbersString = '',
+        smallNumbersString = '',
+        arrayOfNumbers = [];
+    for(let i = 0; i < stringOfNumbers.length; i++) {
+        arrayOfNumbers.push(+stringOfNumbers[i]);
     }
+
+    let biggestArray = arrayOfNumbers.sort((a, b) => {
+        return(b-a);
+    });
+    let smallestArray = arrayOfNumbers.sort((a, b) => {
+        return(a-b);
+    });
+
+    biggestArray.forEach((item) => {
+        bigNumbersString += item;
+    });
+    biggestNumber = (+bigNumbersString);
+
+    smallestArray.forEach((item) => {
+        smallNumbersString += item;
+    });
+    smallestNumber = (+smallNumbersString);
+
+    subtractionResult = biggestNumber - smallestNumber;
+    stepsCounter += 1;
 };
 
 //Function to generate the number of steps taken, etc...
@@ -35,7 +58,7 @@ const generateStepsTaken = () => {
                 kaprekarsAlgo(userInput, stepsCounter);
             }
             else {
-                kaprekarsAlgo(subtractionResult, subtractionResult, stepsCounter);
+                kaprekarsAlgo(subtractionResult, stepsCounter);
             }
         }
     }
@@ -44,21 +67,13 @@ const generateStepsTaken = () => {
 
 //Function to create the DOM nodes.
 const createDOMNodes = () => {
-    if(checkUserInput() === 'less-digits') {
-
-    }
-    else if(checkUserInput() === 'digits-identical') {
-
-    }
-    else {
-
-    }
+    console.log('hello');
 };
 
 //Function to set event listeners
 const eventListeners = () => {
-    let button = document.querySelector('button'),
-        inputField = document.querySelector('input');
+    let button = document.querySelector('div button'),
+        inputField = document.querySelector('div input');
 
     button.addEventListener('click', createDOMNodes);
     inputField.addEventListener('keydown', (event) => {
@@ -66,12 +81,14 @@ const eventListeners = () => {
             createDOMNodes();
         }
     })
+    console.log('hello');
 };
 
 //Function to start the app...
 const startApp = () => {
     eventListeners();
+    console.log('hello');
 };
 
 //Starting the app now...
-//startApp();
+startApp();
