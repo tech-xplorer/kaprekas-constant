@@ -24,7 +24,7 @@ const checkUserInput = () => {
 const createDOM = (condition) => {
     //creating the dynamic DOM nodes
     if(condition === 'less-digits') {
-
+        
     }
     else if(condition === 'digits-identical') {
 
