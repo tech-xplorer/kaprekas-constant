@@ -2,7 +2,8 @@
 let stepsCounter = 0,
     subtractionResult = 0,
     biggestNumber = 0,
-    smallestNumber = 0;
+    smallestNumber = 0,
+    inputField = document.querySelector('input');
 //Function to verify user input
 const checkUserInput = () => {
     let condition = '';
@@ -21,38 +22,39 @@ const checkUserInput = () => {
 };
 
 //Function to create dynamic DOM Nodes
-const createDOM = (condition) => {
+const createDOMNodes = (condition) => {
     //creating the dynamic DOM nodes
+    //clearing the DOM...
+    let nodeToClear = document.querySelector('main div').firstChild;
+    nodeToClear.remove();
+
     let div = document.createElement('div');
-    let appendPosition = document.querySelector('main div');
+    let appendPosition = document.querySelector('div#main-div');
     appendPosition.appendChild(div);
     if(condition === 'less-digits') {
         let p = document.createElement('p');
-        let innerHtml = document.createTextNode(`Oops!<br>Your number should be four-digit!`);
+        let innerHtml = 'Oops!<br>Your number should be four-digit!';
 
-        p.innerHTML = innerHtml;
+        //p.appendChild(innerHtml);
+        p.insertAdjacentHTML('beforeend', innerHtml);
         div.appendChild(p);
     }
     else if(condition === 'digits-identical') {
         let p = document.createElement('p');
-        let innerHtml = document.createTextNode(`Oops!<br>Your number should have at least<br>two none-identical digits!`);
+        let innerHtml = 'Oops!<br>Your number should have at least<br>two none-identical digits!';
 
-        p.innerHTML = innerHtml;
+        //p.appendChild(innerHtml);
+        p.insertAdjacentHTML('beforeend', innerHtml);
         div.appendChild(p);
     }
     else {
-        let p = document.createElement('p');
-        let innerHtml = document.createTextNode(`Yesss!<br>Took your number ${stepsCounter} steps to reach its Kaprekar's constant!<br> Have a look.`);
-
-        p.innerHTML = innerHtml;
-        div.appendChild(p);
 
         return div;
     }
 }
 
 //Function to run the Kaprekar's Constant algorithm.
-const kaprekarsAlgo = (numberValue, subtractionResult) => {
+const kaprekarsAlgo = (numberValue) => {
     let stringOfNumbers = '' + numberValue, //conv numberValue param into string...
 
         //Convert stringOfNumbers into array for sorting
@@ -77,9 +79,6 @@ const kaprekarsAlgo = (numberValue, subtractionResult) => {
 
 //Function to append nodes to the DOM
 const appendDOMNodes = () => {
-    //clearing the DOM...
-    let nodeToClear = document.querySelector('main div:nth-child(1)');
-    nodeToClear.remove();
 
     let userInput = document.querySelector('input').value;
 
@@ -91,6 +90,7 @@ const appendDOMNodes = () => {
     }
     else {
         while(subtractionResult !== 6174) {
+
             if(subtractionResult === 0) {
                 kaprekarsAlgo(userInput);
             }
@@ -100,11 +100,19 @@ const appendDOMNodes = () => {
             stepsCounter++;
             //Dom nodes...Create global 
             //create the <p> elements and append to the Div returned by the nodes function.
-            let p = document.createElement('p');
-            let innerHtml = document.createTextNode(`${biggestNumber} - ${smallestNumber} = ${subtractionResult}`);
-            p.innerHTML = innerHtml;
-            createDOMNodes('all-good').appendChild(p);
+             let p = document.createElement('p');
+             let innerHtml = `Step ${stepsCounter}: ${biggestNumber} - ${smallestNumber} = ${subtractionResult}`;
+             //p.innerHTML = innerHtml;
+             p.insertAdjacentHTML('beforeend', innerHtml);
+             createDOMNodes('all-good').appendChild(p);
         }
+        let p = document.createElement('p');
+        let innerHtml = `Yesss!<br>Took your number ${stepsCounter} steps to reach its Kaprekar's constant!<br> Have a look.`;
+
+        //p.innerHTML = innerHtml;
+        p.insertAdjacentHTML('beforeend', innerHtml);
+        let div = document.querySelector('main div div');
+        div.insertBefore(p, div.childNodes[0]);
     }
 };
 
@@ -113,7 +121,7 @@ const eventListeners = () => {
     let button = document.querySelector('div button'),
         inputField = document.querySelector('div input');
 
-    inputField.addEventListener('keydown', (event) => {
+    inputField.addEventListener('keyup', (event) => {
         if (!Number.isInteger(+inputField.value) && (event.key !== 'Backspace' || event.key !== 'Delete' ||
             event.key !== 'Tab' || event.key !== 'Arrow Left' ||
             event.key !== 'Arrow Right' || event.key === 'Enter')) {
